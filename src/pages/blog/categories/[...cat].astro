@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import CardPost from "../../../components/CardPost.astro";
+
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { cat: entry.data.categories }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+const allCat = await getCollection('blog' , ({data})=> {
+  return data.categories === entry.data.categories;
+});
+---
+
+<MainLayout>
+    <div class="max-w-screen-xl mx-auto py-8 space-y-8">
+        <h1 class="text-center text-3xl font-bold text-yellow-500">All categories : {entry.data.categories}</h1>
+
+        <div class="grid grid-cols-4 gap-10">
+            {
+                allCat.map(cat => <CardPost post={cat} /> )
+            }
+        </div>
+    </div>
+</MainLayout>

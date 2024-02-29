@@ -1,0 +1,45 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import ComponentHead from "../components/ComponentHead.astro";
+
+import { Icon } from 'astro-icon/components';
+---
+
+<html lang="en" class="scroll-smooth">
+	<head>
+		<ComponentHead />
+	</head>
+	<body class="bg-zinc-50 dark:bg-zinc-950">
+		<div id="top"><span class="sr-only">top</span></div>
+		 <a id="scroll-top" aria-label="top" class="hidden fixed bottom-5 right-4 z-20 p-3 rounded-full bg-black shadow-2xl text-white" href="#top">
+           <Icon name="ri:arrow-up-line" />
+        </a>
+        <header id="header" class="sticky top-0 bg-white dark:bg-zinc-900 ease-in-out delay-150 duration-300 z-50">
+            <Navbar />
+        </header>
+		<main>
+            <slot />
+		</main>
+		<Footer />
+		{/* flowbite */}
+		<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+
+		<script>
+			document.addEventListener('astro:page-load',() => {
+				const header = document.querySelector('#header');
+				const scrollTop = document.querySelector('#scroll-top');
+				window.addEventListener('scroll', ()=>{
+					if ( window.pageYOffset >= 10 ) {
+						header.classList.add("shadow-xl");
+						scrollTop.classList.remove("hidden");
+					}else {
+						header.classList.remove("shadow-xl");
+						scrollTop.classList.add("hidden");
+					}
+				});
+			})
+		</script>
+	</body>
+</html>

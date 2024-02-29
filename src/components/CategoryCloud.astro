@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+const blogEntries = await getCollection('blog');
+
+const cat = blogEntries.map( b => b.data.categories);
+
+const filterCat = cat.reduce((acc, item) => {
+  acc[item] = (acc[item] || 0) + 1;
+  return acc;
+}, {});
+---
+<div class="space-y-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl p-5">
+  <h2 class="text-2xl font-bold dark:text-zinc-300">BLog Categories</h2>
+  <div class="flex flex-wrap gap-4 items-center">
+      { Object.entries(filterCat).map(([key, value]) =>
+        <a href={`/blog/categories/${key}`} class="relative inline-flex items-center px-6 py-3 text-sm font-medium text-center text-white bg-zinc-800 rounded-md hover:bg-zinc-950 dark:bg-zinc-800 dark:hover:bg-zinc-700">
+        {key}
+          <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-yellow-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{value}</div>
+        </a>
+      )}
+  </div>
+</div>

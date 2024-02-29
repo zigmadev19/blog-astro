@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+// `post` will match your 'blog' collection schema type
+const { post } = Astro.props;
+---
+
+<article class="group overflow-hidden rounded-lg shadow transition hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-zinc-900 bg-zinc-100 dark:bg-zinc-900">
+  <div class="h-56 w-full overflow-hidden">
+    <Image alt={post.data.title} src={post.data.image} class="group-hover:scale-110 transition h-full w-full object-cover" />
+  </div>
+
+  <div class="p-4 sm:p-6 text-zinc-600 dark:text-zinc-500">
+    <time datetime={post.data.publishDate} class="block text-xs">{post.data.publishDate.toLocaleDateString()}</time>
+
+    <a href={"/blog/" + post.slug}>
+      <h3 class="mt-0.5 text-lg text-zinc-700 dark:text-zinc-200">{post.data.title}</h3>
+    </a>
+
+    <p class="mt-2 line-clamp-3 text-sm/relaxed">
+	{post.body}
+    </p>
+  </div>
+</article>

@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from 'astro-icon/components';
+
+import profile from '../images/profile.jpg';
+
+const sosmed = [
+    {text: "ig", icon: "ri:instagram-line" , url: "/"},
+    {text: "twitter", icon: "ri:twitter-x-line" , url: "/"},
+    {text: "linkedin", icon: "ri:linkedin-box-line" , url: "/"},
+    {text: "youtube", icon: "ri:youtube-line" , url: "/"},
+]
+---
+<div class="bg-zinc-100 dark:bg-zinc-900 space-y-5 shadow rounded-2xl p-6">
+    <Image class="w-60 h-60 rounded-full object-cover mx-auto" src={profile} alt="Jhoe Doe" width="375" height="275" />
+
+	<div class="space-y-2">
+		<h3 class="text-2xl font-bold text-zinc-700 dark:text-zinc-200">Jhoe Doe</h3>
+		<p class="text-zinc-600 dark:text-zinc-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, suscipit distinctio error cumque vitae facilis.</p>
+	</div>
+
+	<div class="space-y-2">
+		<h4 class="text-xl font-bold text-zinc-700 dark:text-zinc-200">follow me</h4>
+		<div class="flex gap-2">
+        {
+            sosmed.map(s =>
+                <a class="p-2 bg-zinc-200 dark:bg-zinc-800 hover:bg-yellow-500 dark:hover:bg-yellow-600 rounded-full text-zinc-700 dark:text-zinc-200 hover:text-zinc-300" href={s.url}><span class="sr-only">{s.text}</span><Icon class="text-lg" name={s.icon} /></a>
+            )
+        }
+		</div>
+    </div>
+</div>

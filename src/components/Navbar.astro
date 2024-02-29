@@ -1,0 +1,64 @@
+---
+import Container from "../components/Container.astro";
+import { Icon } from 'astro-icon/components';
+
+import ToggleMode from "./ToggleMode.astro";
+
+const menus = [
+    {text: "Home", url : "/"},
+    {text: "Blog", url : "/blog"},
+    {text: "Contact", url : "/contact"}
+]
+
+const { pathname } = Astro.url;
+const baseClass = "pb-1 hover:border-b-2 hover:border-yellow-500";
+---
+<nav class="py-4 lg:py-6 dark:text-zinc-200">
+    <Container class="flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold">BlogAstro</a>
+
+        <div class="flex items-center gap-x-8">
+            <ul class="hidden lg:flex lg:items-center lg:gap-x-4">
+                {
+                    menus.map(m =>
+                        <li>
+                            <a class:list={[ baseClass, { "border-b-2 border-yellow-500" : m.url === pathname }]} href={m.url}>{m.text}</a>
+                        </li>
+                    )
+                }
+            </ul>
+
+            <div class="flex items-center space-x-2">
+                <ToggleMode />
+                <button id="toggleMenu" aria-label="toggleMenu" class="block lg:hidden text-2xl font-bold">
+                    <Icon name="ri:menu-line" />
+                </button>
+            </div>
+        </div>
+    </Container>
+    {/* mobile menu*/}
+    <div id="mobileMenu" class="hidden px-4 py-6 lg:hidden">
+        <ul class="space-y-3">
+        {
+            menus.map(m =>
+               <li><a class:list={['block py-2 ps-4 rounded-xl hover:bg-black hover:text-white',{ "text-white bg-black" : m.url === pathname }]} data="link-item" href={m.url}>{m.text}</a></li>
+            )
+        }
+        </ul>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+       const btn = document.querySelector("#toggleMenu");
+        const dataLink = document.querySelectorAll('[data="link-item"]');
+
+        btn.addEventListener('click' , () => {
+            document.querySelector("#mobileMenu").classList.toggle("hidden");
+        });
+
+        dataLink.forEach( item => item.addEventListener('click' , () => {
+        document.querySelector("#mobileMenu").classList.toggle("hidden");
+        }) );
+    });
+</script>

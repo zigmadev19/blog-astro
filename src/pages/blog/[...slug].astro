@@ -1,0 +1,75 @@
+---
+import { Image } from "astro:assets";
+import MainLayout from "../../layouts/MainLayout.astro";
+import CategoryCloud from "../../components/CategoryCloud.astro";
+import CardRelated from "../../components/CardRelated.astro";
+
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const allPost = await getCollection('blog' , ({data})=> {
+  return data.categories === entry.data.categories && data.title !== entry.data.title ;
+});
+---
+<MainLayout>
+    <div class="max-w-screen-lg mx-auto px-4 lg:px-0">
+        <div class="text-center space-y-6 my-8">
+            <p class="px-6 py-2 bg-yellow-500 text-zinc-200 inline-block text-lg rounded-lg">{entry.data.categories}</p>
+            <h1 class="text-4xl text-zinc-800 dark:text-zinc-300 font-bold text-center">{entry.data.title}</h1>
+
+            <div class="flex gap-4 items-center dark:text-zinc-300 text-lg">
+                <small><b>Author</b> : <span class="dark:text-zinc-400">Zigma</span></small>
+
+                <smal class="flex items-center gap-2">
+                    <b>Publish</b> :
+                    <time datetime={entry.data.publishDate} class="dark:text-zinc-400">{entry.data.publishDate.toLocaleDateString()}</time>
+                </smal>
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto aspect-[4/2] mb-8">
+            <Image class="w-full h-full rounded object-cover" src={entry.data.image} alt={entry.data.title} />
+        </div>
+        <div class="col-span-2 space-y-8">
+            <div class="prose prose-zinc dark:prose-invert">
+                <Content />
+            </div>
+
+            <div class="flex gap-x-2">
+                <span class="font-bold text-md dark:text-zinc-300">Tags :</span>
+                <div class="space-x-4">
+                    {
+                    entry.data.tags.map( tag => (
+                        <span class="px-4 py-2 rounded bg-zinc-200 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-400"># {tag}</span>
+                    ))
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="grid lg:grid-cols-6 gap-8 mt-12">
+            <div class="col-span-4 space-y-4">
+                    <h2 class="text-2xl font-bold text-yellow-500">Related Post</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        {
+                            allPost?.map(post => (
+                                <CardRelated post={post} />
+                            ))
+                        }
+                    </div>
+              </div>
+              <div class="col-span-2 h-fit">
+                <CategoryCloud />
+              </div>
+        </div>
+    </div>
+</MainLayout>
+

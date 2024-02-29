@@ -1,0 +1,40 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+---
+<meta charset="utf-8" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="viewport" content="width=device-width" />
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- Primary Meta Tags -->
+<title>astro web blog</title>
+<meta name="title" content="astro web blog" />
+<meta name="description" content="membuat web dengan framework astro" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://metatags.io/" />
+<meta property="og:title" content="astro web blog" />
+<meta property="og:description" content="membuat web dengan framework astro" />
+<meta property="og:image" content="https://metatags.io/images/meta-tags.png" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://metatags.io/" />
+<meta property="twitter:title" content="astro web blog" />
+<meta property="twitter:description" content="membuat web dengan framework astro" />
+<meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
+
+<!-- Meta Tags Generated with https://metatags.io -->
+<title>Astro</title>
+<ViewTransitions />
+
+<script>
+    {/* On page load or when changing themes, best to add inline in `head` to avoid FOUC */}
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+</script>

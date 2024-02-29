@@ -1,0 +1,51 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+import CardProfile from "../components/CardProfile.astro";
+
+
+import CardFeaturPost from "../components/CardFeaturPost.astro";
+import CardPost from "../components/CardPost.astro";
+
+import { getCollection } from 'astro:content';
+
+const blogEntries = await getCollection('blog');
+
+blogEntries.sort( (a, b) => {
+	return new Date(b.data.publishDate) - new Date(a.data.publishDate);
+})
+const featurePost = blogEntries[0];
+---
+
+<MainLayout>
+	<section>
+		<div class="max-w-screen-xl mx-auto py-8 p-4">
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+				<CardProfile />
+				<div class="lg:col-span-2">
+					<h2 class="text-3xl font-bold mb-4 text-yellow-500">Feature Post</h2>
+					<div>
+						<CardFeaturPost featurePost={featurePost} />
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="max-w-screen-xl mx-auto py-6 p-4">
+			<h2 class="text-3xl font-bold mb-6 text-yellow-500">Post Blog</h2>
+
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+			{
+				blogEntries.slice(1,4).map( blog => (
+					<CardPost post={blog} />
+				))
+			}
+			</div>
+
+			<a href="/blog" class="px-6 py-3 rounded-full bg-zinc-900 hover:bg-yellow-500 text-yellow-500 hover:text-zinc-50 block w-fit mt-8 mx-auto" >More</a>
+		</div>
+	</section>
+</MainLayout>
+
