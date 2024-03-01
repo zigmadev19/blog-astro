@@ -23,15 +23,15 @@ const allPost = await getCollection('blog' , ({data})=> {
 <MainLayout>
     <div class="max-w-screen-lg mx-auto px-4 lg:px-0">
         <div class="text-center space-y-6 my-8">
-            <p class="px-6 py-2 bg-yellow-500 text-zinc-200 inline-block text-lg rounded-lg">{entry.data.categories}</p>
-            <h1 class="text-4xl text-zinc-800 dark:text-zinc-300 font-bold text-center">{entry.data.title}</h1>
+            <p class="px-6 py-2 bg-yellow-500 text-zinc-200 inline-block text-md lg:text-lg rounded-lg">{entry.data.categories}</p>
+            <h1 class="text-xl md:text-2xl lg:text-3xl text-zinc-800 dark:text-zinc-300 font-bold text-center">{entry.data.title}</h1>
 
-            <div class="flex gap-4 items-center dark:text-zinc-300 text-lg">
+            <div class="flex gap-4 items-center dark:text-zinc-300 text-sm md:text-md">
                 <small><b>Author</b> : <span class="dark:text-zinc-400">Zigma</span></small>
 
                 <smal class="flex items-center gap-2">
                     <b>Publish</b> :
-                    <time datetime={entry.data.publishDate} class="dark:text-zinc-400">{entry.data.publishDate.toLocaleDateString()}</time>
+                    <time datetime={entry.data.publishDate} class="dark:text-zinc-400">{entry.data.publishDate.toLocaleDateString('en-GB',{year: 'numeric',month: 'long',day: 'numeric',})}</time>
                 </smal>
             </div>
         </div>
@@ -40,13 +40,13 @@ const allPost = await getCollection('blog' , ({data})=> {
             <Image class="w-full h-full rounded object-cover" src={entry.data.image} alt={entry.data.title} />
         </div>
         <div class="col-span-2 space-y-8">
-            <div class="prose prose-zinc dark:prose-invert">
+            <div class="prose prose-sm lg:prose-base prose-zinc dark:prose-invert prose-blockquote:text-yellow-600">
                 <Content />
             </div>
 
-            <div class="flex gap-x-2">
+            <div class="flex flex-col gap-2">
                 <span class="font-bold text-md dark:text-zinc-300">Tags :</span>
-                <div class="space-x-4">
+                <div class="flex flex-wrap gap-2 items-center">
                     {
                     entry.data.tags.map( tag => (
                         <span class="px-4 py-2 rounded bg-zinc-200 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-400"># {tag}</span>
@@ -56,9 +56,9 @@ const allPost = await getCollection('blog' , ({data})=> {
             </div>
         </div>
         <div class="grid lg:grid-cols-6 gap-8 mt-12">
-            <div class="col-span-4 space-y-4">
+            <div class="lg:col-span-4 space-y-4">
                     <h2 class="text-2xl font-bold text-yellow-500">Related Post</h2>
-                    <div class="grid md:grid-cols-2 gap-8">
+                    <div class="grid md:grid-cols-2 gap-4">
                         {
                             allPost?.map(post => (
                                 <CardRelated post={post} />
@@ -66,7 +66,7 @@ const allPost = await getCollection('blog' , ({data})=> {
                         }
                     </div>
               </div>
-              <div class="col-span-2 h-fit">
+              <div class="lg:col-span-2 h-fit">
                 <CategoryCloud />
               </div>
         </div>

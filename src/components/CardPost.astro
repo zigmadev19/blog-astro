@@ -15,13 +15,13 @@ const { post } = Astro.props;
   </div>
 
   <div class="p-4 sm:p-6 text-zinc-600 dark:text-zinc-500">
-    <time datetime={post.data.publishDate} class="block text-xs">{post.data.publishDate.toLocaleDateString()}</time>
+    <time datetime={post.data.publishDate} class="block text-xs">{post.data.publishDate.toLocaleDateString('en-GB',{year: 'numeric',month: 'long',day: 'numeric',})}</time>
 
     <a href={"/blog/" + post.slug}>
-      <h3 class="mt-0.5 text-lg text-zinc-700 dark:text-zinc-200">{post.data.title}</h3>
+      <h3 class="mt-0.5 group-hover:text-yellow-500 transition text-lg line-clamp-2 text-zinc-700 dark:text-zinc-200">{post.data.title}</h3>
     </a>
 
-    <p class="mt-2 line-clamp-3 text-sm/relaxed">
+    <p class="mt-2 line-clamp-2 text-sm/relaxed">
 	{post.body}
     </p>
   </div>
