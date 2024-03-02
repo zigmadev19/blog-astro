@@ -1,8 +1,12 @@
 ---
 import { Image } from "astro:assets";
-import MainLayout from "../../layouts/MainLayout.astro";
-import CategoryCloud from "../../components/CategoryCloud.astro";
-import CardRelated from "../../components/CardRelated.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+import CategoryCloud from "@components/CategoryCloud.astro";
+import CardRelated from "@components/CardRelated.astro";
+import DateTime from "@components/DateTime.astro";
+
+import Tablecontent from "@components/Tablecontent.astro";
+
 
 import { getCollection } from 'astro:content';
 
@@ -14,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 
 const allPost = await getCollection('blog' , ({data})=> {
   return data.categories === entry.data.categories && data.title !== entry.data.title ;
@@ -26,12 +30,11 @@ const allPost = await getCollection('blog' , ({data})=> {
             <p class="px-6 py-2 bg-yellow-500 text-zinc-200 inline-block text-md lg:text-lg rounded-lg">{entry.data.categories}</p>
             <h1 class="text-xl md:text-2xl lg:text-3xl text-zinc-800 dark:text-zinc-300 font-bold text-center">{entry.data.title}</h1>
 
-            <div class="flex gap-4 items-center dark:text-zinc-300 text-sm md:text-md">
-                <small><b>Author</b> : <span class="dark:text-zinc-400">Zigma</span></small>
+            <div class="flex gap-4 items-center dark:text-zinc-300">
+                <small class="text-sm md:text-md"><b>Author</b> : <span>Zigma</span></small>
 
-                <smal class="flex items-center gap-2">
-                    <b>Publish</b> :
-                    <time datetime={entry.data.publishDate} class="dark:text-zinc-400">{entry.data.publishDate.toLocaleDateString('en-GB',{year: 'numeric',month: 'long',day: 'numeric',})}</time>
+                <smal class="text-sm md:text-md flex items-center gap-2">
+                    <b>Publish</b> : <DateTime time={entry.data.publishDate} />
                 </smal>
             </div>
         </div>
@@ -40,8 +43,15 @@ const allPost = await getCollection('blog' , ({data})=> {
             <Image class="w-full h-full rounded object-cover" src={entry.data.image} alt={entry.data.title} />
         </div>
         <div class="col-span-2 space-y-8">
-            <div class="prose prose-sm lg:prose-base prose-zinc dark:prose-invert prose-blockquote:text-yellow-600">
-                <Content />
+            <div class="grid md:grid-cols-3 gap-4">
+                 <div class="md:col-span-2 prose prose-sm lg:prose-base prose-zinc dark:prose-invert prose-blockquote:text-yellow-600">
+                    <Content />
+                </div>
+
+                <div class="md:sticky md:top-24 md:z-20 order-first md:order-last col-span-1 bg-zinc-100 h-fit rounded p-4">
+                    <span class="font-bold">Table Of Content</span>
+                    <Tablecontent headings={headings} />
+                </div>
             </div>
 
             <div class="flex flex-col gap-2">

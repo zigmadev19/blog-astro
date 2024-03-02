@@ -1,28 +1,24 @@
 ---
+import DateTime from "@components/DateTime.astro";
 import { Image } from "astro:assets";
-import type { CollectionEntry } from 'astro:content';
-interface Props {
-  post: CollectionEntry<'blog'>;
-}
-
-// `post` will match your 'blog' collection schema type
 const { post } = Astro.props;
 ---
 
 <article class="group overflow-hidden rounded-lg shadow transition hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-zinc-900 bg-zinc-100 dark:bg-zinc-900">
-  <div class="h-56 w-full overflow-hidden">
-    <Image alt={post.data.title} src={post.data.image} class="group-hover:scale-110 transition h-full w-full object-cover" />
-  </div>
+    <div class="h-56 w-full overflow-hidden">
+        <Image alt={post.data.title} src={post.data.image} class="group-hover:scale-110 transition h-full w-full object-cover" />
+    </div>
 
-  <div class="p-4 sm:p-6 text-zinc-600 dark:text-zinc-500">
-    <time datetime={post.data.publishDate} class="block text-xs">{post.data.publishDate.toLocaleDateString('en-GB',{year: 'numeric',month: 'long',day: 'numeric',})}</time>
+    <div class="p-4 sm:p-6 text-zinc-600 dark:text-zinc-500">
+        <div class="flex justify-between items-center mb-2">
+            <DateTime time={post.data.publishDate} />
 
-    <a href={"/blog/" + post.slug}>
-      <h3 class="mt-0.5 group-hover:text-yellow-500 transition text-lg line-clamp-2 text-zinc-700 dark:text-zinc-200">{post.data.title}</h3>
-    </a>
+            <a class="px-3 py-1 bg-yellow-500 rounded-sm text-zinc-200 hover:opacity-90 hover:text-zinc-50 transition" href={"/blog/categories/" + post.data.categories }>{post.data.categories}</a>
+        </div>
+        <a href={"/blog/" + post.slug}>
+        <h3 class="mt-0.5 group-hover:text-yellow-500 transition text-lg line-clamp-2 text-zinc-700 dark:text-zinc-200">{post.data.title}</h3>
+        </a>
 
-    <p class="mt-2 line-clamp-2 text-sm/relaxed">
-	{post.body}
-    </p>
-  </div>
+        <p class="mt-2 line-clamp-2 text-sm/relaxed">{post.body}</p>
+    </div>
 </article>

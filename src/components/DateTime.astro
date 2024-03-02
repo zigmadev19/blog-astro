@@ -1,0 +1,9 @@
+---
+const { time, class: className, ...rest} = Astro.props ;
+---
+
+<time datetime={time} class:list={[className , 'block']} {...rest}>
+    {time.toLocaleDateString('en-GB',
+        {year: 'numeric',month: 'short',day: 'numeric',}
+    )}
+</time>

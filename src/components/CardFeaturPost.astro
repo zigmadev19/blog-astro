@@ -1,22 +1,16 @@
 ---
+import DateTime from "@components/DateTime.astro";
 import { Image } from "astro:assets";
-import type { CollectionEntry } from 'astro:content';
-interface Props {
-  featurePost: CollectionEntry<'blog'>;
-}
-
-// `post` will match your 'blog' collection schema type
 const { featurePost } = Astro.props;
 ---
 
 <article class="group relative overflow-hidden rounded-lg shadow hover:shadow-lg">
+    <a class="absolute z-20 top-5 left-5 text-zinc-200 bg-yellow-500 rounded px-3 py-1 hover:opacity-90 hover:text-zinc-50 transition" href={"/blog/categories/" + featurePost.data.categories}>{featurePost.data.categories}</a>
     <Image alt={featurePost.data.title} src={featurePost.data.image} class="group-hover:scale-110 transition absolute inset-0 h-full w-full object-cover" />
 
     <div class="relative bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
         <div class="p-4 sm:p-6">
-            <time datetime={featurePost.data.publishDate} class="block text-md text-white/90">{featurePost.data.publishDate.toLocaleDateString('en-GB', {
-                year: 'numeric', month: 'long', day: 'numeric',
-            })}</time>
+            <DateTime time={featurePost.data.publishDate} class="text-lg text-zinc-100" />
 
             <a href={"/blog/" + featurePost.slug}>
                 <h3 class="group-hover:text-yellow-500 transition mt-0.5 text-2xl font-bold text-white">{featurePost.data.title}</h3>
