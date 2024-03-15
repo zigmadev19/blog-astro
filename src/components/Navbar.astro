@@ -1,9 +1,6 @@
 ---
 import Container from "@components/Container.astro";
 import { Icon } from 'astro-icon/components';
-
-import ToggleMode from "./ToggleMode.astro";
-
 const menus = [
     {text: "Home", url : "/"},
     {text: "Blog", url : "/blog"},
@@ -29,7 +26,6 @@ const baseClass = "pb-1 hover:border-b-2 hover:border-yellow-500";
             </ul>
 
             <div class="flex items-center space-x-2">
-                <ToggleMode />
                 <button id="toggleMenu" aria-label="toggleMenu" class="block lg:hidden text-2xl font-bold">
                     <Icon name="ri:menu-line" />
                 </button>
