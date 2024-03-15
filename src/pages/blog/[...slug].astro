@@ -40,7 +40,7 @@ const allPost = await getCollection('blog' , ({data})=> {
         </div>
 
         <div class="max-w-5xl mx-auto aspect-[4/2] mb-8">
-            <Image class="w-full h-full rounded object-cover" src={entry.data.image} alt={entry.data.title} />
+            <Image class="w-full h-full rounded object-cover" loading="eager" src={entry.data.image} alt={entry.data.title} />
         </div>
         <div class="col-span-2 space-y-8">
             <div class="grid md:grid-cols-3 gap-4">
